@@ -1,11 +1,26 @@
 import * as request from 'supertest'
+import initializeApp from '../app'
 
-async function get(app, url) {
+let app
+
+async function getApp() {
+    if(app === undefined) {
+        app = await initializeApp()
+    }
+
+    return app
+}
+
+async function get(url) {
+    const app = await getApp()
+
     return request(app).get(url)
         .set('Accept', 'application/json')
 }
 
-async function post(app, url, body = undefined) {
+async function post(url, body = undefined) {
+    const app = await getApp()
+
     return request(app).post(url)
         .send(body)
         .set('Accept', 'application/json')

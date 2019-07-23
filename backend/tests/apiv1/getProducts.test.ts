@@ -1,27 +1,13 @@
 import {get} from '../requests'
-import initializeApp from '../../app'
 
 /**
  * Endpoint spec:
  *      https://trello.com/c/Po7FF8IU/2-get-apiv1-products
  */
 describe('GET /apiv1/products endpoint', () => {
-    let app = undefined
-
-    beforeAll( async (done) => {
-        app = await initializeApp()
-
-        done()
-    })
-
-    afterAll( async (done) => {
-        await app.closeConnection()
-
-        done()
-    })
 
     test('returns 200', async (done) => {
-        const response = await get(app, '/apiv1/products')
+        const response = await get('/apiv1/products')
 
         expect(response.statusCode).toBe(200)
 
@@ -29,7 +15,7 @@ describe('GET /apiv1/products endpoint', () => {
     })
 
     test('returns the available units', async (done) => {
-        const response = await get(app, '/apiv1/products')
+        const response = await get('/apiv1/products')
 
         expect(response.body).toEqual({
             products: expect.arrayContaining([
